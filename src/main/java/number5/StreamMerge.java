@@ -14,26 +14,17 @@ public class StreamMerge {
 
         Stream<String> result = zipIterators(streamA, streamB);
 
-        result
-                .peek(System.out::println)
-                .collect(Collectors.toList());
+        result.peek(System.out::println).collect(Collectors.toList());
 
     }
     public static <T> Stream<T> zipIterators( Stream<T> streamA,Stream<T> streamB ){
-
-
-        List<T> resultList = new ArrayList<>();
 
         Iterator<T> iteratorA = streamA.iterator();
 
         Iterator<T> iteratorB = streamB.iterator();
 
-        while (iteratorA.hasNext() && iteratorB.hasNext()){
-            resultList.add(iteratorA.next());
-            resultList.add(iteratorB.next());
-        }
-
-        return resultList.stream();
+        return Stream.iterate(0, i -> iteratorA.hasNext() && iteratorB.hasNext(),  i -> i + 1)
+                .flatMap(i -> Stream.of(iteratorA.next(), iteratorB.next()));
     }
 
 }
