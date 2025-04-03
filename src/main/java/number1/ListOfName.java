@@ -14,7 +14,7 @@ public class ListOfName {
 
 
     }
-    public static String getName(List<String> names){
+    public static String getName(List<String> names ){
        return IntStream.range(0, names.size())
                 .filter(index -> index % 2 != 0)
                .mapToObj(index -> index + ". " + names.get(index))
